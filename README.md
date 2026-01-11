@@ -91,7 +91,7 @@ Run tests for specific modules or all at once:
 
 ## 📝 License
 
-TODO: Add license information. (The project contains `gradlew` which is licensed under Apache 2.0, but the project itself needs a LICENSE file).
+This project is licensed under the [MIT License](./LICENSE).
 
 ---
 
