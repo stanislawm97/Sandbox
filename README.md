@@ -1,89 +1,97 @@
-This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM), Server.
+# Sandbox
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+A Kotlin Multiplatform (KMP) project targeting Android, iOS, Web (Wasm & JS), Desktop (JVM), and Server (Ktor). This project uses Compose Multiplatform for shared UI across client platforms.
 
-* [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
-  you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
+## 🛠 Tech Stack
 
-* [/server](./server/src/main/kotlin) is for the Ktor server application.
+- **Language:** [Kotlin](https://kotlinlang.org/) (2.3.0)
+- **UI Framework:** [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/) (1.9.3)
+- **Backend:** [Ktor](https://ktor.io/) (3.3.3)
+- **Package Manager:** Gradle (Kotlin DSL)
+- **Platforms:** 
+  - Android
+  - iOS (SwiftUI entry point)
+  - Web (WebAssembly & JavaScript)
+  - Desktop (JVM)
+  - Server (JVM)
 
-* [/shared](./shared/src) is for the code that will be shared between all targets in the project.
-  The most important subfolder is [commonMain](./shared/src/commonMain/kotlin). If preferred, you
-  can add code to the platform-specific folders here too.
+## 📁 Project Structure
 
-### Build and Run Android Application
+- `composeApp/`: Contains the shared Compose Multiplatform UI code.
+  - `commonMain/`: UI and logic shared across all client platforms.
+  - `androidMain/`, `iosMain/`, `jvmMain/`, `webMain/`: Platform-specific UI implementations and entry points.
+- `shared/`: Shared logic (non-UI) used by both the client applications and the server.
+- `server/`: Ktor server application.
+- `iosApp/`: Native iOS application (SwiftUI) that hosts the shared Compose UI.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
+## 📋 Requirements
+
+- **JDK:** 17 or higher (recommended 21+)
+- **Android Studio:** Ladybug or newer (for Android development)
+- **Xcode:** 15.0+ (for iOS development, macOS only)
+- **Gradle:** Wrapper provided (`./gradlew`)
+
+## 🚀 Setup & Run
+
+### Android
+- Run from Android Studio or:
+  ```bash
   ./gradlew :composeApp:assembleDebug
   ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
 
-### Build and Run Desktop (JVM) Application
-
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
+### Desktop (JVM)
+  ```bash
   ./gradlew :composeApp:run
   ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
 
-### Build and Run Server
-
-To build and run the development version of the server, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
+### Server (Ktor)
+  ```bash
   ./gradlew :server:run
   ```
-- on Windows
-  ```shell
-  .\gradlew.bat :server:run
+
+### Web
+- **Wasm (Recommended):**
+  ```bash
+  ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
+  ```
+- **JS:**
+  ```bash
+  ./gradlew :composeApp:jsBrowserDevelopmentRun
   ```
 
-### Build and Run Web Application
+### iOS
+- Open `iosApp/iosApp.xcodeproj` in Xcode and run on a simulator or device.
+- Or use the Kotlin Multiplatform Wizard's generated run configurations in IntelliJ IDEA/Android Studio.
 
-To build and run the development version of the web app, use the run configuration from the run widget
-in your IDE's toolbar or run it directly from the terminal:
-- for the Wasm target (faster, modern browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun
-    ```
-- for the JS target (slower, supports older browsers):
-  - on macOS/Linux
-    ```shell
-    ./gradlew :composeApp:jsBrowserDevelopmentRun
-    ```
-  - on Windows
-    ```shell
-    .\gradlew.bat :composeApp:jsBrowserDevelopmentRun
-    ```
+## 📜 Available Scripts
 
-### Build and Run iOS Application
+| Command | Description |
+|---------|-------------|
+| `./gradlew tasks` | List all available Gradle tasks |
+| `./gradlew :composeApp:run` | Run the Desktop application |
+| `./gradlew :server:run` | Run the Ktor server |
+| `./gradlew build` | Build the entire project |
+| `./gradlew clean` | Clean build artifacts |
+| `./gradlew allTests` | Run tests across all targets |
 
-To build and run the development version of the iOS app, use the run configuration from the run widget
-in your IDE’s toolbar or open the [/iosApp](./iosApp) directory in Xcode and run it from there.
+## 🧪 Testing
+
+Run tests for specific modules or all at once:
+
+- **All Tests:** `./gradlew allTests`
+- **Shared Logic:** `./gradlew :shared:allTests` (or target specific like `jvmTest`)
+- **Compose App:** `./gradlew :composeApp:allTests`
+- **Server:** `./gradlew :server:test`
+
+## ⚙️ Environment Variables
+
+- `JAVA_HOME`: Path to your JDK installation.
+- `ANDROID_HOME`: (Optional) Path to your Android SDK.
+- `OVERRIDE_KOTLIN_BUILD_IDE_SUPPORTED`: (iOS only) Set to `YES` to skip Gradle build task invocation during Xcode builds if managed by IDE.
+
+## 📝 License
+
+TODO: Add license information. (The project contains `gradlew` which is licensed under Apache 2.0, but the project itself needs a LICENSE file).
 
 ---
 
